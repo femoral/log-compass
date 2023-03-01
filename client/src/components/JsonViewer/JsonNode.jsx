@@ -1,4 +1,7 @@
 import { createSignal, For, mergeProps, createMemo } from "solid-js";
+import ExpandMoreIcon from "~icons/mdi/expand-more";
+import ExpandLessIcon from "~icons/mdi/expand-less";
+
 export const JsonNode = (props) => {
   const merged = mergeProps({ path: "$", depth: 0, key: "" }, props);
   const [expanded, setExpanded] = createSignal(false);
@@ -29,26 +32,18 @@ export const JsonNode = (props) => {
         }}
       >
         {isExpandable() && (
-          <div class="mr-2 cursor-pointer" onClick={toggleExpanded}>
-            <span class="mr-2">{expanded() ? "-" : "+"}</span>
+          <div class="mr-2 cursor-pointer flex" onClick={toggleExpanded}>
+            <span class="mr-2 h-4 w-4 text-blue-500 hover:font-bold">
+              {expanded() ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </span>
             {props.depth > 0 && (
-              <span class="text-sm font-medium text-gray-700 font-mono">
-                {props.key}:{" "}
-              </span>
+              <span class="font-medium text-gray-700 mr-1">{props.key}:</span>
             )}
             {isExpandable() && <span>{expandableOpeningCharacter()}</span>}
           </div>
         )}
-        {expanded() &&
-          isExpandable() &&
-          renderExpandable({
-            value: merged.value,
-            path: merged.path,
-            depth: merged.depth,
-          })}
-        {!expanded() &&
-          !isExpandable() &&
-          renderPrimitive({ key: merged.key, value: merged.value })}
+        {expanded() && isExpandable() && renderExpandable(props)}
+        {!expanded() && !isExpandable() && renderPrimitive(props)}
         {isExpandable() && !expanded() && <span class="mr-2">...</span>}
         {isExpandable() && (
           <span class="mr-2">{expandableClosingCharacter()}</span>
@@ -62,8 +57,10 @@ const renderPrimitive = (props) => {
   const isString = createMemo(() => typeof props.value === "string");
   return (
     <div class="flex flex-row container whitespace-nowrap w-full">
-      <label class="mr-2 font-mono">{props.key}: </label>
-      <p class="font-mono overflow-hidden text-ellipsis">
+      <label class="mr-2" onClick={() => console.log(props)}>
+        {props.key}:{" "}
+      </label>
+      <p class="overflow-hidden text-ellipsis">
         {isString() ? `"${props.value}"` : `${props.value}`}
       </p>
     </div>
@@ -73,7 +70,7 @@ const renderPrimitive = (props) => {
 const renderExpandable = (props) => {
   const isArray = createMemo(() => Array.isArray(props.value));
   return (
-    <div class="flex flex-col border-l">
+    <div class="flex flex-col border-l ml-2">
       <For each={isArray() ? props.value : Object.keys(props.value)}>
         {(key, index) => (
           <JsonNode
