@@ -1,6 +1,7 @@
 import { createSignal, For, mergeProps, createMemo } from "solid-js";
 import ExpandMoreIcon from "~icons/mdi/expand-more";
 import ExpandLessIcon from "~icons/mdi/expand-less";
+import { CopyJson } from "../CopyJson/index.jsx";
 
 export const JsonNode = (props) => {
   const merged = mergeProps({ path: "$", depth: 0, key: "" }, props);
@@ -32,14 +33,25 @@ export const JsonNode = (props) => {
         }}
       >
         {isExpandable() && (
-          <div class="mr-2 cursor-pointer flex" onClick={toggleExpanded}>
-            <span class="mr-2 h-4 w-4 text-blue-500 hover:font-bold">
-              {expanded() ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </span>
-            {props.depth > 0 && (
-              <span class="font-medium text-gray-700 mr-1">{props.key}:</span>
+          <div class="group mr-2 flex">
+            <div class="cursor-pointer flex" onClick={toggleExpanded}>
+              <span class="mr-2 h-4 w-4 text-blue-500 hover:font-bold">
+                {expanded() ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </span>
+              {props.depth > 0 && (
+                <span class="font-medium text-gray-700 mr-1">{props.key}:</span>
+              )}
+              {isExpandable() && (
+                <div class="group flex flex-row">
+                  <span>{expandableOpeningCharacter()}</span>
+                </div>
+              )}
+            </div>
+            {expanded() && (
+              <span class="flex flex-row">
+                {renderCopyJsonComponente(props)}
+              </span>
             )}
-            {isExpandable() && <span>{expandableOpeningCharacter()}</span>}
           </div>
         )}
         {expanded() && isExpandable() && renderExpandable(props)}
@@ -56,13 +68,14 @@ export const JsonNode = (props) => {
 const renderPrimitive = (props) => {
   const isString = createMemo(() => typeof props.value === "string");
   return (
-    <div class="flex flex-row container whitespace-nowrap w-full">
+    <div class="group flex flex-row container whitespace-nowrap w-full">
       <label class="mr-2" onClick={() => console.log(props)}>
         {props.key}:{" "}
       </label>
       <p class="overflow-hidden text-ellipsis">
         {isString() ? `"${props.value}"` : `${props.value}`}
       </p>
+      {renderCopyJsonComponente(props)}
     </div>
   );
 };
@@ -84,5 +97,13 @@ const renderExpandable = (props) => {
         )}
       </For>
     </div>
+  );
+};
+
+const renderCopyJsonComponente = (props) => {
+  return (
+    <span class="hidden ml-3 cursor-pointer group-hover:block">
+      <CopyJson fieldValue={props.value} />
+    </span>
   );
 };
