@@ -30,7 +30,7 @@ export const Paginator = (props) => {
           <PaginatorHeader
             {...{ page, setPage, pageSize, setPageSize, pages }}
           />
-          <div class="flex flex-col container gap-1 text-ellipsis overflow-hidden">
+          <div class="flex flex-col container divide-y divide-gray-100 divi text-ellipsis overflow-hidden">
             <For each={props.each.slice(range().start, range().end)}>
               {(item) => props.children(item)}
             </For>

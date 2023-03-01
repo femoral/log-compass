@@ -2,6 +2,7 @@ import { Logs } from "./Logs.jsx";
 import { LogProvider } from "./context/LogContext.jsx";
 import { Navigation } from "./components/Navigation.jsx";
 import { Search } from "./containers/Search.jsx";
+import { Card } from "./components/Card.jsx";
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
         <div class="my-4">
           <Search />
         </div>
-        <Logs />
+        <Card>
+          <Logs />
+        </Card>
       </div>
     </LogProvider>
   );
