@@ -32,6 +32,7 @@
     "lodash": "^4.17.21",
     "open": "^8.4.0",
     "solid-js": "^1.6.11",
+    "split2": "^4.1.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
