@@ -1,5 +1,6 @@
 import { createSignal, For, mergeProps, createMemo } from "solid-js";
 import ExpandMoreIcon from "~icons/mdi/expand-more";
+import ContentCopy from "~icons/mdi/content-copy";
 
 export const JsonNode = (props) => {
   const merged = mergeProps({ path: "$", depth: 0, key: "" }, props);
@@ -31,8 +32,11 @@ export const JsonNode = (props) => {
         }}
       >
         {isExpandable() && (
-          <div class="mr-2 cursor-pointer flex" onClick={toggleExpanded}>
-            <span class="mr-2 h-4 w-4 text-blue-500 hover:font-bold">
+          <div class="group mr-2 cursor-pointer flex">
+            <span
+              class="mr-2 h-4 w-4 text-blue-500 hover:font-bold"
+              onClick={toggleExpanded}
+            >
               {
                 <ExpandMoreIcon
                   class="transition-transform ease-out"
@@ -46,6 +50,7 @@ export const JsonNode = (props) => {
               <span class="font-medium text-gray-700 mr-1">{merged.key}:</span>
             )}
             {isExpandable() && <span>{expandableOpeningCharacter()}</span>}
+            {expanded() && renderCopyJsonComponente(merged)}
           </div>
         )}
         {expanded() && isExpandable() && renderExpandable(merged)}
@@ -62,13 +67,14 @@ export const JsonNode = (props) => {
 const renderPrimitive = (props) => {
   const isString = createMemo(() => typeof props.value === "string");
   return (
-    <div class="flex flex-row container whitespace-nowrap w-full">
+    <div class="group flex flex-row container whitespace-nowrap w-full">
       <label class="mr-2" onClick={() => console.log(props)}>
         {props.key}:{" "}
       </label>
       <p class="overflow-hidden text-ellipsis">
         {isString() ? `"${props.value}"` : `${props.value}`}
       </p>
+      {renderCopyJsonComponente(props)}
     </div>
   );
 };
@@ -90,5 +96,23 @@ const renderExpandable = (props) => {
         )}
       </For>
     </div>
+  );
+};
+
+const CopyJson = (props) => {
+  const copyToClipboard = async () => {
+    await navigator.clipboard.writeText(
+      JSON.stringify(props.fieldValue, null, 2)
+    );
+  };
+
+  return <ContentCopy onClick={copyToClipboard} />;
+};
+
+const renderCopyJsonComponente = (props) => {
+  return (
+    <span class="hidden ml-3 cursor-pointer group-hover:block">
+      <CopyJson fieldValue={props.value} />
+    </span>
   );
 };
