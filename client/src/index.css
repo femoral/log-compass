@@ -30,19 +30,49 @@
     }
 }
 
+@property --var1 {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: white;
+}
+
+@keyframes fadeIn {
+    0% {
+        --var1: white;
+    }
+
+    100% {
+        --var1: #aaa;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        --var1: #aaa;
+    }
+
+    100% {
+        --var1: white;
+    }
+}
+
 .styled-scrollbars {
-    scrollbar-color: #999 #333;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    animation: fadeOut .5s ease-in-out forwards;
+}
+
+.styled-scrollbars:hover {
+    animation: fadeIn .5s ease-in-out forwards;
 }
 
 .styled-scrollbars::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    background: white;
+    width: 8px;
 }
 
 .styled-scrollbars::-webkit-scrollbar-thumb {
-    background: #999;
-}
-
-.styled-scrollbars::-webkit-scrollbar-track {
-    background: #333;
+    background: var(--var1);
+    border-radius: 4px;
 }

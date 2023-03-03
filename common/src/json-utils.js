@@ -1,8 +1,8 @@
-export const getPrimitivePaths = (obj, currentKey = "", paths = new Set()) => {
+export const getPrimitivePaths = (obj, paths = new Set(), currentKey = "") => {
   if (typeof obj === "object" && obj !== null) {
     if (Array.isArray(obj)) {
       obj.forEach((item) => {
-        getPrimitivePaths(item, `${currentKey}[]`, paths);
+        getPrimitivePaths(item, paths, `${currentKey}[]`);
       });
     } else {
       for (let key in obj) {
@@ -10,7 +10,7 @@ export const getPrimitivePaths = (obj, currentKey = "", paths = new Set()) => {
         if (typeof obj[key] !== "object" || obj[key] === null) {
           paths.add(newKey);
         }
-        getPrimitivePaths(obj[key], newKey, paths);
+        getPrimitivePaths(obj[key], paths, newKey);
       }
     }
   }
