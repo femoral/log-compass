@@ -1,13 +1,16 @@
 import { createContext, createMemo, createSignal, useContext } from "solid-js";
 import _ from "lodash";
 import axios from "axios";
+import { getPrimitivePaths } from "../../../common/src/json-utils";
 
 const LogContext = createContext();
 
 export const LogProvider = (props) => {
   const logIdSet = new Set();
+  const pathSet = new Set();
   const [logs, setLogs] = createSignal([]);
   const [search, setSearch] = createSignal("");
+  const [paths, setPaths] = createSignal([]);
 
   const filteredLogs = createMemo(() => {
     if (!search()) return logs();
@@ -18,11 +21,13 @@ export const LogProvider = (props) => {
   const getLogs = async () => {
     const res = await axios.get("/api/logs");
 
-    res.data.forEach((log) => {
+    res.data.map((log) => {
       logIdSet.add(log._id);
+      getPrimitivePaths(log.data, pathSet, "");
     });
 
     setLogs(res.data.map((log) => log.data));
+    setPaths(Array.from(pathSet.values()));
   };
 
   getLogs();
@@ -35,12 +40,14 @@ export const LogProvider = (props) => {
     if (logIdSet.has(payload.message._id)) return;
 
     setLogs((prev) => [...prev, payload.message.data]);
+    setPaths(() => [...getPrimitivePaths(payload.message.data, pathSet)]);
   };
 
   return (
     <LogContext.Provider
       value={{
         logs: filteredLogs,
+        paths,
         setSearch,
       }}
     >
