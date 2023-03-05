@@ -1,7 +1,11 @@
 import { createContext, createMemo, createSignal, useContext } from "solid-js";
 import _ from "lodash";
 import axios from "axios";
-import { getPrimitivePaths } from "../../../common/src/json-utils";
+import {
+  convertValueSearchToLodashFilter,
+  getPrimitivePaths,
+  getUsingPath,
+} from "../../../common/src/json-utils";
 
 const LogContext = createContext();
 
@@ -10,13 +14,44 @@ export const LogProvider = (props) => {
   const pathSet = new Set();
   const [logs, setLogs] = createSignal([]);
   const [search, setSearch] = createSignal("");
+  const [pathSearch, setPathSearch] = createSignal("");
   const [paths, setPaths] = createSignal([]);
+  const [pathValueSearch, setPathValueSearch] = createSignal("");
 
   const filteredLogs = createMemo(() => {
     if (!search()) return logs();
 
     return _.filter(logs(), JSON.parse(search()));
   });
+
+  const filteredPaths = createMemo(() => {
+    if (!pathSearch()) return paths();
+
+    return paths().filter((path) =>
+      path.toLowerCase().includes(pathSearch().toLowerCase().trim())
+    );
+  });
+
+  const searchValues = () => {
+    if (!pathValueSearch()) return;
+
+    const pathToSearch = pathValueSearch().replaceAll("[]", "").split(".");
+
+    return {
+      path: pathValueSearch(),
+      results: getUsingPath(logs(), pathToSearch),
+    };
+  };
+
+  const addValueToSearch = (path, value) => {
+    if (!path) return;
+
+    const existingFilter = JSON.parse(search() || "{}");
+
+    const filter = convertValueSearchToLodashFilter(path, value);
+
+    setSearch(JSON.stringify(_.merge(existingFilter, filter)));
+  };
 
   const getLogs = async () => {
     const res = await axios.get("/api/logs");
@@ -47,8 +82,13 @@ export const LogProvider = (props) => {
     <LogContext.Provider
       value={{
         logs: filteredLogs,
-        paths,
+        paths: filteredPaths,
         setSearch,
+        setPathSearch,
+        setPathValueSearch,
+        searchValues,
+        search,
+        addValueToSearch,
       }}
     >
       {props.children}

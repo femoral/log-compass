@@ -9,7 +9,7 @@ export default defineConfig({
     Icons({ compiler: "solid" }),
     VitePluginFonts({
       google: {
-        families: ["JetBrains Mono"],
+        families: ["JetBrains Mono", "Roboto"],
       },
     }),
   ],

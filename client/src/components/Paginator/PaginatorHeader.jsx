@@ -5,8 +5,8 @@ import ChevronRightIcon from "~icons/mdi/chevron-right";
 
 export const PaginatorHeader = (props) => {
   return (
-    <div class="grid grid-cols-6 gap-6 justify-between w-full">
-      <div class="col-span-6 sm:col-span-3">
+    <div class="flex flex-row gap-6 justify-between w-full">
+      <div>
         <label for="country" class="block">
           Page Size
         </label>
@@ -24,7 +24,7 @@ export const PaginatorHeader = (props) => {
         </select>
       </div>
 
-      <div class="grid col-span-6 sm:col-span-3 items-end place-items-end">
+      <div class="grid items-end place-items-end">
         <div class="flex items-center">
           <button
             class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50"
