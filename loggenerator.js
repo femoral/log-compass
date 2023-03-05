@@ -52,7 +52,7 @@ function writeLog() {
     id: i++,
   };
 
-  object[generateRandomString(10)] = generateRandomString(10);
+  //object[generateRandomString(10)] = generateRandomString(10);
 
   process.stdout.write(
     "[2022-02-01] some stuff: " + JSON.stringify(object) + "\n"

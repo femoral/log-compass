@@ -1,4 +1,4 @@
-import { Logs } from "./Logs.jsx";
+import { Logs } from "./containers/Logs.jsx";
 import { LogProvider } from "./context/LogContext.jsx";
 import { Search } from "./containers/Search.jsx";
 import { Card } from "./components/Card.jsx";

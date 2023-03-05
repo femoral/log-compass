@@ -17,8 +17,8 @@
         -moz-appearance: textfield !important;
     }
 
-    input {
-        @apply border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
+    input[type='text'] {
+        @apply border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
     }
 
     select {
@@ -57,8 +57,6 @@
 }
 
 .styled-scrollbars {
-    height: 100%;
-    width: 100%;
     overflow-y: scroll;
     animation: fadeOut .5s ease-in-out forwards;
 }
@@ -75,4 +73,18 @@
 .styled-scrollbars::-webkit-scrollbar-thumb {
     background: var(--var1);
     border-radius: 4px;
+}
+
+.ellipsis-left {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    direction: rtl;
+}
+
+.ellipsis-left::before {
+    content: "...";
+    display: inline-block;
+    direction: ltr;
 }

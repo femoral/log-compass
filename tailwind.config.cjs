@@ -6,6 +6,7 @@ module.exports = {
     },
     fontFamily: {
       mono: ['"JetBrains Mono"', 'monospace'],
+      sans: ['"Roboto"', 'sans-serif'],
     }
   },
   plugins: [

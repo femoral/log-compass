@@ -32,9 +32,9 @@ export const JsonNode = (props) => {
         }}
       >
         {isExpandable() && (
-          <div class="group mr-2 cursor-pointer flex">
+          <div class="group mr-2 flex">
             <span
-              class="mr-2 h-4 w-4 text-blue-500 hover:font-bold"
+              class="mr-2 h-4 w-4 text-blue-500 hover:font-bold cursor-pointer"
               onClick={toggleExpanded}
             >
               {
@@ -50,7 +50,7 @@ export const JsonNode = (props) => {
               <span class="font-medium text-gray-700 mr-1">{merged.key}:</span>
             )}
             {isExpandable() && <span>{expandableOpeningCharacter()}</span>}
-            {expanded() && renderCopyJsonComponente(merged)}
+            {expanded() && renderCopyJsonComponent(merged)}
           </div>
         )}
         {expanded() && isExpandable() && renderExpandable(merged)}
@@ -74,7 +74,7 @@ const renderPrimitive = (props) => {
       <p class="overflow-hidden text-ellipsis">
         {isString() ? `"${props.value}"` : `${props.value}`}
       </p>
-      {renderCopyJsonComponente(props)}
+      {renderCopyJsonComponent(props)}
     </div>
   );
 };
@@ -109,7 +109,7 @@ const CopyJson = (props) => {
   return <ContentCopy onClick={copyToClipboard} />;
 };
 
-const renderCopyJsonComponente = (props) => {
+const renderCopyJsonComponent = (props) => {
   return (
     <span class="hidden ml-3 cursor-pointer group-hover:block">
       <CopyJson fieldValue={props.value} />
