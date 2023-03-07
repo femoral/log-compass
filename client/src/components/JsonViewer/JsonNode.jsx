@@ -68,7 +68,7 @@ const renderPrimitive = (props) => {
   const isString = createMemo(() => typeof props.value === "string");
   return (
     <div class="group flex flex-row container whitespace-nowrap w-full">
-      <label class="mr-2" onClick={() => console.log(props)}>
+      <label class="ml-6 mr-2" onClick={() => console.log(props)}>
         {props.key}:{" "}
       </label>
       <p class="overflow-hidden text-ellipsis">

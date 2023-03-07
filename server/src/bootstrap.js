@@ -7,17 +7,19 @@ import {
 import { createLogRouter } from "./routes/log.routes.js";
 import { createObserver } from "./utils/observer.js";
 import { createServer } from "./server.js";
-import { createJsonParserTransform } from "./parser/json-parser.transform.js";
+import { createJsonParserTransform } from "./capture/parser/json-parser.stream.js";
+import { createLogStoreWritable } from "./logs/log-store.stream.js";
 
 export const bootstrap = async (command, args) => {
-  const jsonParserTransform = createJsonParserTransform();
+  const stringToObjectStream = createJsonParserTransform();
   const observers = createObserver();
   const logStore = createLogStore({ observers });
+  const storeStream = createLogStoreWritable(logStore);
   const startChildProcess = createStartChildProcess({
     command,
     args,
-    logStore,
-    jsonParserTransform,
+    storeStream,
+    stringToObjectStream,
   });
   const getLogsController = createGetLogsController({ logStore });
   const streamLogsController = createStreamLogsController({ observers });

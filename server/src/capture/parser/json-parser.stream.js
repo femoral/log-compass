@@ -1,16 +1,18 @@
 import { Transform } from "stream";
 
-export const createJsonParserTransform = () => () => {
+export const createJsonParserTransform = () => {
   return new Transform({
-    transform(chunk, encoding, callback) {
+    transform(line, encoding, callback) {
       try {
-        if (!chunk.trim()) return;
+        if (!line.trim()) return callback();
 
-        const json = JSON.parse(cleanNonJsonData(chunk));
-        callback(null, json);
+        const json = JSON.parse(cleanNonJsonData(line));
+        json._parsed = true;
+        this.push(json);
       } catch (error) {
-        console.error("failed to parse JSON log", error);
-        callback(null, { _raw: chunk, _parsed: false });
+        this.push({ _raw: line, _parsed: false, _parseError: error.message });
+      } finally {
+        callback();
       }
     },
     decodeStrings: false,
