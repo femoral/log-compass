@@ -4,7 +4,7 @@ export const createJsonParserTransform = () => {
   return new Transform({
     transform(line, encoding, callback) {
       try {
-        if (!line.trim()) return callback();
+        if (!line.trim()) return;
 
         const json = JSON.parse(cleanNonJsonData(line));
         json._parsed = true;
