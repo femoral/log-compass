@@ -6,7 +6,7 @@ import {
 } from "./logs/log.controller.js";
 import { createLogRouter } from "./routes/log.routes.js";
 import { createObserver } from "./utils/observer.js";
-import { createServer } from "./server.js";
+import { createServer } from "./server.cjs";
 import { createJsonParserTransform } from "./capture/parser/json-parser.stream.js";
 import { createLogStoreWritable } from "./logs/log-store.stream.js";
 
