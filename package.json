@@ -1,22 +1,23 @@
 {
-  "name": "logbud",
-  "version": "0.0.1-alpha.3",
+  "name": "log-compass",
+  "version": "0.0.1-alpha.4",
   "description": "command line utility to view and query logs",
   "main": "server/src/index.js",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/femoral/logbud.git"
+    "url": "https://github.com/femoral/log-compass.git"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development node server/src/index.js",
     "build": "vite build"
   },
   "bin": {
-    "logbud": "bin/logbud.cjs"
+    "log-compass": "bin/log-compass.cjs",
+    "loco": "bin/log-compass.cjs"
   },
   "bugs": {
-    "url": "https://github.com/femoral/logbud/issues"
+    "url": "https://github.com/femoral/log-compass/issues"
   },
   "keywords": [
     "log",
