@@ -5,7 +5,7 @@ export const Navigation = () => {
       role="navigation"
     >
       <a href="#" class="pl-8">
-        logbuddy
+        log-compass
       </a>
     </nav>
   );
