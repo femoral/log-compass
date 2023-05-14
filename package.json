@@ -1,20 +1,23 @@
 {
-  "name": "logbuddy",
-  "version": "0.0.1",
-  "description": "utility to pretty print and query logs",
+  "name": "log-compass",
+  "version": "0.0.1-alpha.4",
+  "description": "command line utility to view and query logs",
   "main": "server/src/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/femoral/log-compass.git"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=development node server/src/index.js",
-    "build": "vite build",
-    "start:client": "vite",
-    "dev:client": "vite",
-    "serve:client": "vite preview",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.vue .",
-    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.vue . --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "test": "jest"
+    "build": "vite build"
+  },
+  "bin": {
+    "log-compass": "bin/log-compass.cjs",
+    "loco": "bin/log-compass.cjs"
+  },
+  "bugs": {
+    "url": "https://github.com/femoral/log-compass/issues"
   },
   "keywords": [
     "log",
@@ -25,16 +28,19 @@
   "author": "femoral",
   "license": "MIT",
   "dependencies": {
-    "@types/jest": "^29.4.0",
-    "axios": "^1.3.3",
+    "cross-spawn": "^7.0.3",
     "express": "^4.18.2",
-    "get-stdin": "^9.0.0",
     "lodash": "^4.17.21",
     "open": "^8.4.0",
-    "solid-js": "^1.6.11",
-    "uuid": "^9.0.0"
+    "split2": "^4.1.0",
+    "uuid": "^9.0.0",
+    "yargs": "^17.7.1"
   },
   "devDependencies": {
+    "axios": "^1.3.3",
+    "solid-js": "^1.6.11",
+    "@types/jest": "^29.4.0",
+    "@iconify-icon/solid": "^1.0.7",
     "@iconify-json/mdi": "^1.1.47",
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.13",
@@ -49,9 +55,17 @@
     "tailwindcss": "^3.2.4",
     "unplugin-icons": "^0.15.3",
     "vite": "^4.1.1",
+    "vite-plugin-fonts": "^0.7.0",
     "vite-plugin-solid": "^2.5.0"
   },
   "engines": {
-    "node": ">=14.19.0"
-  }
+    "node": ">=14.0.0"
+  },
+  "enginesStrict": true,
+  "files": [
+    "server",
+    "client",
+    "common",
+    "bin"
+  ]
 }

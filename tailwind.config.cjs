@@ -4,6 +4,10 @@ module.exports = {
   theme: {
     extend: {
     },
+    fontFamily: {
+      mono: ['"JetBrains Mono"', 'monospace'],
+      sans: ['"Roboto"', 'sans-serif'],
+    }
   },
   plugins: [
     require('@tailwindcss/forms'),

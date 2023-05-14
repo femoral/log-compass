@@ -1,17 +1,14 @@
-import { spawn } from "child_process";
+import spawn from "cross-spawn";
+import split from "split2";
 
 export const createStartChildProcess =
-  ({ command, args, logStore, parse }) =>
+  ({ command, args, storeStream, stringToObjectStream }) =>
   () => {
     const childProcess = spawn(command, args);
-    childProcess.stdout.setEncoding("utf8");
-    childProcess.stdout.on("data", (data) => {
-      try {
-        const log = parse(data);
-        logStore.add({ ...log, _parsed: true });
-      } catch (error) {
-        logStore.add({ _raw: data, _parsed: false });
-        console.error("failed to parse JSON log", error);
-      }
-    });
+
+    //TODO: switch to stream.pipeline to allow for custom & multiple parsers
+    childProcess.stdout
+      .pipe(split())
+      .pipe(stringToObjectStream)
+      .pipe(storeStream);
   };

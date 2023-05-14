@@ -17,12 +17,12 @@
         -moz-appearance: textfield !important;
     }
 
-    input {
+    input[type='text'] {
         @apply border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
     }
 
     select {
-        @apply border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
+        @apply border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500;
     }
 
     label {
@@ -30,19 +30,61 @@
     }
 }
 
+@property --var1 {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: white;
+}
+
+@keyframes fadeIn {
+    0% {
+        --var1: white;
+    }
+
+    100% {
+        --var1: #aaa;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        --var1: #aaa;
+    }
+
+    100% {
+        --var1: white;
+    }
+}
+
 .styled-scrollbars {
-    scrollbar-color: #999 #333;
+    overflow-y: scroll;
+    animation: fadeOut .5s ease-in-out forwards;
+}
+
+.styled-scrollbars:hover {
+    animation: fadeIn .5s ease-in-out forwards;
 }
 
 .styled-scrollbars::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    background: white;
+    width: 8px;
 }
 
 .styled-scrollbars::-webkit-scrollbar-thumb {
-    background: #999;
+    background: var(--var1);
+    border-radius: 4px;
 }
 
-.styled-scrollbars::-webkit-scrollbar-track {
-    background: #333;
+.ellipsis-left {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    direction: rtl;
+}
+
+.ellipsis-left::before {
+    content: "...";
+    display: inline-block;
+    direction: ltr;
 }
